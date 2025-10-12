@@ -1,0 +1,554 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Parsons Resume</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #0d2ebe 0%,  #17a8c5 100%);
+            min-height: 100vh;
+            padding: 40px 20px;
+            color: #333;
+        }
+
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            overflow: hidden;
+            animation: fadeIn 0.8s ease-in;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .header {
+            background: linear-gradient(135deg, #0d2ebe 0%, #17a8c5 100%);
+            color: white;
+            padding: 60px 40px;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .header::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%; 
+            background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, transparent 70%);
+        }
+
+        .info {
+            position: absolute;
+            top: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            color: white;
+            font-size: 24px;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+            z-index: 100;
+        }
+
+        .square {
+            position: absolute;
+            width: 50px;
+            height: 50px;
+            background: linear-gradient(135deg, #6ba6ff, #5aeebd);
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+            border-radius: 8px;
+        }
+
+        @keyframes float {
+            0% {
+                transform: translateY(0) translateX(0);
+                opacity: 0;
+            }
+            10% {
+                opacity: 1;
+            }
+            90% {
+                opacity: 1;
+            }
+            100% {
+                transform: translateY(-100vh) translateX(var(--drift));
+                opacity: 0;
+            }
+        }
+
+        .header-content {
+            position: relative;
+            z-index: 1;
+        }
+
+        h1 {
+            font-size: 3em;
+            margin-bottom: 10px;
+            font-weight: 700;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.2);
+        }
+
+        .subtitle {
+            font-size: 1.3em;
+            opacity: 0.95;
+            font-weight: 300;
+        }
+
+        .contact-info {
+            display: flex;
+            justify-content: center;
+            gap: 30px;
+            margin-top: 25px;
+            flex-wrap: wrap;
+        }
+
+        .contact-item {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            transition: transform 0.3s ease;
+        }
+
+        .contact-item:hover {
+            transform: translateY(-3px);
+        }
+
+        .main-content {
+            display: grid;
+            grid-template-columns: 1fr 2fr;
+            gap: 40px;
+            padding: 50px 40px;
+        }
+
+        .sidebar {
+            border-right: 2px solid #f0f0f0;
+            padding-right: 40px;
+        }
+
+        .section {
+            margin-bottom: 40px;
+        }
+
+        h2 {
+            color: #0d2ebe;
+            font-size: 1.8em;
+            margin-bottom: 20px;
+            border-bottom: 3px solid #0d2ebe;
+            padding-bottom: 10px;
+            position: relative;
+        }
+
+        h2::after {
+            content: '';
+            position: absolute;
+            bottom: -3px;
+            left: 0;
+            width: 50px;
+            height: 3px;
+            background:  #17a8c5;
+        }
+
+        .skill-item {
+            margin-bottom: 20px;
+        }
+
+        .skill-name {
+            font-weight: 600;
+            margin-bottom: 8px;
+            display: flex;
+            justify-content: space-between;
+        }
+
+        .skill-bar {
+            height: 10px;
+            background: #f0f0f0;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: inset 0 2px 4px rgba(0,0,0,0.1);
+        }
+
+        .skill-progress {
+            height: 100%;
+            background: linear-gradient(90deg, #0d2ebe 0%, #17a8c5 100%);
+            border-radius: 10px;
+            transition: width 1.5s ease;
+            animation: fillBar 1.5s ease;
+        }
+
+        @keyframes fillBar {
+            from { width: 0; }
+        }
+
+        .experience-item, .education-item {
+            margin-bottom: 30px;
+            padding-left: 20px;
+            border-left: 3px solid #0d2ebe;
+            position: relative;
+            transition: all 0.3s ease;
+        }
+
+        .experience-item:hover, .education-item:hover {
+            transform: translateX(5px);
+            border-left-color: #17a8c5;
+        }
+
+        .experience-item::before, .education-item::before, .publication-item::before {
+            content: '';
+            position: absolute;
+            left: -8px;
+            top: 5px;
+            width: 13px;
+            height: 13px;
+            background: #0d2ebe;
+            border-radius: 50%;
+            border: 3px solid white;
+            box-shadow: 0 0 0 2px #0d2ebe;
+        }
+
+        h3 {
+            color: #333;
+            font-size: 1.3em;
+            margin-bottom: 5px;
+        }
+
+        .job-title, .degree {
+            color:  #0d2ebe;
+            font-weight: 600;
+            margin-bottom: 5px;
+        }
+
+        .date {
+            color: #888;
+            font-size: 0.9em;
+            margin-bottom: 10px;
+        }
+
+        .description {
+            line-height: 1.6;
+            color: #555;
+        }
+
+        .tag-container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-top: 15px;
+        }
+
+        .tag {
+            background: linear-gradient(135deg, #0d2ebe 0%, #17a8c5 100%);
+            color: white;
+            padding: 6px 15px;
+            border-radius: 20px;
+            font-size: 0.85em;
+            transition: all 0.3s ease;
+            cursor: default;
+        }
+
+        .tag:hover {
+            transform: scale(1.1);
+            box-shadow: 0 4px 12px rgba(102, 126, 234, 0.4);
+        }
+
+        ul {
+            list-style: none;
+            padding-left: 0;
+        }
+
+        ul li {
+            padding: 8px 0;
+            color: #555;
+            position: relative;
+            padding-left: 25px;
+        }
+
+        ol li {
+            padding: 8px 0;
+            color: #555;
+            position: relative;
+            padding-left: 25px;            
+        }
+
+        ul li::before {
+            content: '▹';
+            position: absolute;
+            left: 0;
+            color:  #0d2ebe;
+            font-weight: bold;
+            font-size: 1.2em;
+        }
+
+        a {
+            color: black; /* Custom color */
+            text-decoration: none; /* Remove underline */
+            font-weight: 500; /* Slightly bolder */
+            transition: all 0.2s ease; /* Smooth transitions */
+        }
+
+        a:hover {
+            color: #1d4ed8; /* Darker on hover */
+            text-decoration: underline; /* Add underline on hover */
+        }
+
+        @media (max-width: 768px) {
+            .main-content {
+                grid-template-columns: 1fr;
+            }
+
+            .sidebar {
+                border-right: none;
+                border-bottom: 2px solid #f0f0f0;
+                padding-right: 0;
+                padding-bottom: 30px;
+            }
+
+            h1 {
+                font-size: 2em;
+            }
+
+            .contact-info {
+                flex-direction: column;
+                gap: 15px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header" id="header">
+        <div class="square" id="square"></div>
+            <div class="header-content">
+                <h1>Taylor Parsons</h1>
+                <div class="subtitle">Computational Chemist | Software Developer</div>
+                <div class="contact-info">
+                    <div class="contact-item">
+                        <span>📧</span>
+                        <span>taylorjparsons79@gmail.com</span>
+                    </div>
+                    <div class="contact-item">
+                        <span>📱</span>
+                        <span>(580) 319-6333</span>
+                    </div>
+                    <div class="contact-item">
+                        <span>📍</span>
+                        <span>Lawrence, KS</span>
+                    </div>
+                    <div class="contact-item">
+                        <span>🔗</span>
+                        <span><a style="color: white;" href="https://github.com/tayjpar">github.com/tayjpar</a></span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    <script>
+        const square = document.getElementById('square');
+        const header = document.getElementById('header');
+        
+        const squareSize = 50;
+        
+        let x = header.offsetWidth / 2;
+        let y = header.offsetHeight / 2;
+        let dx = 1;
+        let dy = 1;
+        
+        function animate() {
+            x += dx;
+            y += dy;
+            
+            if (x + squareSize >= header.offsetWidth || x <= 0) {
+                dx = -dx;
+            }
+            
+            if (y + squareSize >= header.offsetHeight || y <= 0) {
+                dy = -dy;
+            }
+            
+            square.style.left = x + 'px';
+            square.style.top = y + 'px';
+            
+            requestAnimationFrame(animate);
+        }
+        
+        animate();
+    </script>
+
+        <div class="main-content">
+            <div class="sidebar">
+                <div class="section">
+                    <h2>Technical Skills</h2>
+                    <div class="skill-item">
+                        <div class="skill-name">
+                            <span>Python</span>
+                            <span>6 years</span>
+                        </div>
+                        <div class="skill-bar">
+                            <div class="skill-progress" style="width: 100%"></div>
+                        </div>
+                    </div>
+                    <div class="skill-item">
+                        <div class="skill-name">
+                            <span>FORTRAN</span>
+                            <span>5 years</span>
+                        </div>
+                        <div class="skill-bar">
+                            <div class="skill-progress" style="width: 83%"></div>
+                        </div>
+                    </div>
+                    <div class="skill-item">
+                        <div class="skill-name">
+                            <span>SQL</span>
+                            <span>1 year</span>
+                        </div>
+                        <div class="skill-bar">
+                            <div class="skill-progress" style="width: 20%"></div>
+                        </div>
+                    </div>
+                    <div class="skill-item">
+                        <div class="skill-name">
+                            <span>HTML/CSS/JS</span>
+                            <span>1 year</span>
+                        </div>
+                        <div class="skill-bar">
+                            <div class="skill-progress" style="width: 20%;"></div>
+                        </div>
+                    </div>
+                    <div class="skill-item">
+                        <div class="skill-name">
+                            <span>Bash</span>
+                            <span>5 years</span>
+                        </div>
+                        <div class="skill-bar">
+                            <div class="skill-progress" style="width: 83%;"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="section">
+                    <h2>Languages</h2>
+                    <ul>
+                        <li>English - Native</li>
+                        <li>Spanish - Intermediate</li>
+                    </ul>
+                </div>
+
+                <div class="section">
+                    <h2>Interests</h2>
+                    <div class="tag-container">
+                        <span class="tag">Electronic Structure Theory</span>
+                        <span class="tag">Open Source</span>
+                        <span class="tag">STEM Education</span>
+                        <span class="tag">User Experience</span>
+                        <span class="tag">Board Games</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="main-section">
+                <div class="section">
+                    <h2>About Me</h2>
+                    <p class="description">
+                        I am currently a graduate student in computational 
+                        chemistry at the University of Kansas, graduating in Fall 2025. My
+                        work in graduate school has been centered in the field of quantum
+                        chemistry, primarily in applying coupled cluster 
+                        methods to solve problems in light-matter-interaction by writing
+                        computer codes or using existing programs to run simulations. The primary languages I have used 
+                        are Python and FORTRAN, though I also have experience in web design languages
+                        (HTML, CSS, JS) and some SQL. I love problem-solving and am always working to 
+                        expand my skills as a programmer. 
+                    </p>
+                </div>
+
+                <div class="section">
+                    <h2>Experience</h2>
+                    <div class="experience-item">
+                        <h3>University of Kansas</h3>
+                        <div class="job-title">Graduate Research Assistant</div>
+                        <div class="date">January 2021 - Present</div>
+                        <div class="description">
+                            <ul>
+                                <li>Contributed to development of various quantum chemistry software packages</li>
+                                <li>Responsible for collecting, analyzing,  and organizing data into a coherent story for publication</li>
+                                <li>Participated in multiple collaborations with researchers from different fields of study</li>
+                                <li>Responsible for training and mentoring three graduate and two undergraduate students</li>
+                                <li>Utilized machine learning methods to detect trends in data</li>
+                                <li>Delivered high level talks at multiple large scale conferences</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <div class="experience-item">
+                        <h3>University of Kansas</h3>
+                        <div class="job-title">Graduate Teaching Assistant</div>
+                        <div class="date">Januray 2020 - December 2020</div>
+                        <div class="description">
+                            <ul>
+                                <li>Aided professor with in-class teaching assignments</li>
+                                <li>Responsible for independently instructing lab sessions for undergraduate courses</li>
+                                <li>Held individual office hours teaching sessions</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                <div class="section">
+                    <h2>Education</h2>
+                    <div class="education-item">
+                        <h3>University of Kansas</h3>
+                        <div class="degree">PhD in Computational Chemistry</div>
+                        <div class="date">2020 - Present (Graduating December 2025)</div>
+                    </div>
+                    <div class="education-item">
+                        <h3>East Central University of Oklahoma</h3>
+                        <div class="degree">Bachelor of Science in Chemistry</div>
+                        <div class="date">2017 - 2020</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="section">
+                    <h2>Publications</h2>
+                    <div class="publication-item">
+                        <ul>
+                            <li><a href="https://pubs.aip.org/aip/aco/article/1/2/026107/3366727/Frequency-dependent-polarizability-for-1D-periodic">Frequency Dependent Polarizability for 1D Periodic Systems at Coupled Cluster with Single and Double Excitations Level</a> (2025)</li>
+                            <li><a href="https://pubs.acs.org/doi/full/10.1021/acs.jpca.4c03728">  Theoretical Study of the Isotope Effect in Optical Rotation</a> (2024)</li>
+                            <li><a href="https://onlinelibrary.wiley.com/doi/abs/10.1002/chir.23709">First Principles Simulations of Optical Rotation of Chiral Molecular Crystals</a> (2024)</li>
+                            <li><a href="https://onlinelibrary.wiley.com/doi/abs/10.1002/chir.23575"> On the Choice of Coordinate Origin in Length Gauge Optical Rotation Calculations</a> (2023)</li>
+                            <li><a href="https://pubs.acs.org/doi/10.1021/acs.jpca.2c00201"> Basis Set Dependence of Optical Rotation Calculations with Different Choices of Gauge</a> (2022)</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="section">
+                    <h2>Example Project</h2>
+                    <div class="tag-container">
+                        <ul>
+                            <li>Below is a link to a program written to compute the energy of a molecule using coupled cluster with singles and double (CCSD) level of Theory</li>
+                        </ul>
+                        <span class="tag"><a style="color: white;" href="https://github.com/tayjpar/CCSD-Energy">CCSD Energy Program</a></span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
