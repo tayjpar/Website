@@ -368,10 +368,17 @@
         
         const squareSize = 50;
         
+        let rotation = 0;
+        
         let x = header.offsetWidth / 2;
         let y = header.offsetHeight / 2;
-        let dx = 1;
-        let dy = 1;
+        let dx = 1.5;
+        let dy = 1.5;
+        
+        function flipBox() {
+            rotation += 180;
+            square.style.transform = `rotate(${rotation}deg)`;
+        }
         
         function animate() {
             x += dx;
@@ -379,10 +386,12 @@
             
             if (x + squareSize >= header.offsetWidth || x <= 0) {
                 dx = -dx;
+                flipBox();
             }
             
             if (y + squareSize >= header.offsetHeight || y <= 0) {
                 dy = -dy;
+                flipBox();
             }
             
             square.style.left = x + 'px';
